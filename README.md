@@ -7,3 +7,7 @@
 1. `slack.ts` の `seachQuery` にお好みの検索条件を設定(slack で検索する時と同じクエリ)
 1. `deno run slack.ts` を実行🚀
 1. `slack_log.txt` に結果が出力されますお🐔
+
+# その他
+
+出力される値は `${message}\t${permalink}` になってるので、使い方に応じて変更するヨロシ🍜
