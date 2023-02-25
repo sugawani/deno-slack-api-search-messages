@@ -33,13 +33,21 @@ const results = await Promise.all(
   ),
 );
 
+// iid だと重複するので permalink で重複を排除する
+const writeMessages = [
+  ...new Map(
+    results.flatMap((result: SearchMessagesType) => result.messages.matches)
+      .map(
+        (match: MatchesType) => [match.permalink, match],
+      ),
+  ).values(),
+];
+
 const textDir = "slack_log.txt";
-results.forEach((searchMessage: SearchMessagesType) => {
-  searchMessage.messages.matches.forEach((message: MatchesType) => {
-    Deno.writeTextFileSync(
-      textDir,
-      `"${message.text}"\t${message.permalink}\n`,
-      { append: true, create: true },
-    );
-  });
+writeMessages.forEach((message: MatchesType) => {
+  Deno.writeTextFileSync(
+    textDir,
+    `"${message.text}"\t${message.permalink}\n`,
+    { append: true, create: true },
+  );
 });
